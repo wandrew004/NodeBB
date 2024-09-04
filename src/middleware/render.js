@@ -452,36 +452,36 @@ module.exports = function (middleware) {
 		});
 
 		const { tidsByFilter } = results.unreadData;
-        navigation = navigation.map((item) => {
-            updateNavItem(item, '/unread', '', unreadCount.topic, unreadData, tidsByFilter, unreadCounts, unreadCount);
-            updateNavItem(item, '/unread?filter=new', 'new', unreadCount.newTopic, unreadData, tidsByFilter, unreadCounts, unreadCount);
-            updateNavItem(item, '/unread?filter=watched', 'watched', unreadCount.watchedTopic, unreadData, tidsByFilter, unreadCounts, unreadCount);
-            updateNavItem(item, '/unread?filter=unreplied', 'unreplied', unreadCount.unrepliedTopic, unreadData, tidsByFilter, unreadCounts, unreadCount);
+		navigation = navigation.map((item) => {
+			updateNavItem(item, '/unread', '', unreadCount.topic, unreadData, tidsByFilter, unreadCounts, unreadCount);
+			updateNavItem(item, '/unread?filter=new', 'new', unreadCount.newTopic, unreadData, tidsByFilter, unreadCounts, unreadCount);
+			updateNavItem(item, '/unread?filter=watched', 'watched', unreadCount.watchedTopic, unreadData, tidsByFilter, unreadCounts, unreadCount);
+			updateNavItem(item, '/unread?filter=unreplied', 'unreplied', unreadCount.unrepliedTopic, unreadData, tidsByFilter, unreadCounts, unreadCount);
 
-            ['flags'].forEach((prop) => {
-                if (item && item.originalRoute === `/${prop}` && unreadCount[prop] > 0) {
-                    item.iconClass += ' unread-count';
-                    item.content = unreadCount.flags;
-                }
-            });
+			['flags'].forEach((prop) => {
+				if (item && item.originalRoute === `/${prop}` && unreadCount[prop] > 0) {
+					item.iconClass += ' unread-count';
+					item.content = unreadCount.flags;
+				}
+			});
 
-            return item;
-        });
+			return item;
+		});
 
-        return { navigation, unreadCount };
-    }
+		return { navigation, unreadCount };
+	}
 
-    function updateNavItem(item, route, filter, content, unreadData, tidsByFilter, unreadCounts, unreadCount) {
-        if (item && item.originalRoute === route) {
-            unreadData[filter] = _.zipObject(tidsByFilter[filter], tidsByFilter[filter].map(() => true));
-            item.content = content;
+	function updateNavItem(item, route, filter, content, unreadData, tidsByFilter, unreadCounts, unreadCount) {
+		if (item && item.originalRoute === route) {
+			unreadData[filter] = _.zipObject(tidsByFilter[filter], tidsByFilter[filter].map(() => true));
+			item.content = content;
 			unreadCount.mobileUnread = content;
 			unreadCount.unreadUrl = route;
-            if (unreadCounts[filter] > 0) {
-                item.iconClass += ' unread-count';
-            }
-        }
-    }
+			if (unreadCounts[filter] > 0) {
+				item.iconClass += ' unread-count';
+			}
+		}
+	}
 
 	function modifyTitle(obj) {
 		const title = controllersHelpers.buildTitle(meta.config.homePageTitle || '[[pages:home]]');
